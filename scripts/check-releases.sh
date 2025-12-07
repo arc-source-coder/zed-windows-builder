@@ -15,7 +15,7 @@ if [ -z "$GITHUB_OUTPUT" ]; then
 fi
 
 # Get latest stable release data from the repository
-UPSTREAM_RELEASE=$(gh api repos/zed-industries/zed/releases/latest --jq '{tag_name, body}')
+UPSTREAM_RELEASE=$(gh api repos/arc-source-coder/zed/releases/latest --jq '{tag_name, body}')
 UPSTREAM_TAG=$(echo "$UPSTREAM_RELEASE" | jq -r '.tag_name')
 echo "Latest upstream release: $UPSTREAM_TAG"
 

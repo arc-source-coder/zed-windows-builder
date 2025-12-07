@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Script to prepare release files from build artifacts
-# This script handles CLI, DX11, and OpenGL builds, creating releases even if some fail
+# This script handles CLI and DX11 builds, creating releases even if some fail
 
 set -euo pipefail
 
@@ -30,18 +30,7 @@ if [ -f "$ARTIFACTS_DIR/editor-dx11-release/zed.exe" ]; then
     cd -
 fi
 
-# Check if OpenGL build exists
-if [ -f "$ARTIFACTS_DIR/editor-opengl-release/zed.exe" ]; then
-    echo "Found OpenGL build, adding to release..."
 
-    mkdir -p "$ARTIFACTS_DIR/editor-opengl-release/zed/bin"
-    mv "$ARTIFACTS_DIR/editor-opengl-release/zed.exe" "$ARTIFACTS_DIR/editor-opengl-release/zed"
-    cp "$ARTIFACTS_DIR/cli-release/zed.exe" "$ARTIFACTS_DIR/editor-opengl-release/zed/bin"
-
-    cd "$ARTIFACTS_DIR/editor-opengl-release"
-    zip -r "../../$RELEASE_DIR/zed-opengl.zip" -9 "zed/"
-    cd -
-fi
 
 # Generate checksums for existing files in release folder
 cd "$RELEASE_DIR"

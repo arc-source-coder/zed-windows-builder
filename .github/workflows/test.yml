@@ -44,10 +44,8 @@ jobs:
           # Create mock artifacts
           mkdir -p artifacts/cli-release
           mkdir -p artifacts/editor-dx11-release
-          mkdir -p artifacts/editor-opengl-release
           echo "mock cli executable" > artifacts/cli-release/cli.exe
           echo "mock dx11 executable" > artifacts/editor-dx11-release/zed.exe
-          echo "mock opengl executable" > artifacts/editor-opengl-release/zed.exe
 
           # Run the script
           ./scripts/prepare-release.sh
@@ -57,10 +55,7 @@ jobs:
             exit 1
           fi
 
-          if [ ! -f "release/zed-opengl.zip" ]; then
-            echo "❌ FAIL: Missing zed-opengl.zip"
-            exit 1
-          fi
+
 
           if [ ! -f "release/sha256sums.txt" ]; then
             echo "❌ FAIL: Missing sha256sums.txt"

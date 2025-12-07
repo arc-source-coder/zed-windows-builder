@@ -25,10 +25,7 @@ create_fake_dx11_artifact() {
     echo "fake dx11 executable" > artifacts/editor-dx11-release/zed.exe
 }
 
-create_fake_opengl_artifact() {
-    mkdir -p artifacts/editor-opengl-release
-    echo "fake opengl executable" > artifacts/editor-opengl-release/zed.exe
-}
+
 
 create_fake_cli_artifact() {
     mkdir -p artifacts/cli-release
@@ -74,15 +71,13 @@ run_test() {
     fi
 }
 
-# Test 1: All three builds exist (DX11 + OpenGL)
-setup_test "All three builds exist"
+# Test 1: All builds exist (CLI + DX11)
+setup_test "All builds exist"
 create_fake_cli_artifact
 create_fake_dx11_artifact
-create_fake_opengl_artifact
 run_test "success"
-verify_file_count 3
+verify_file_count 2
 verify_file_exists "release/zed.zip"
-verify_file_exists "release/zed-opengl.zip"
 verify_file_exists "release/sha256sums.txt"
 
 # Test 2: Only DX11 build exists
@@ -94,14 +89,7 @@ verify_file_count 2
 verify_file_exists "release/zed.zip"
 verify_file_exists "release/sha256sums.txt"
 
-# Test 3: Only OpenGL build exists
-setup_test "Only OpenGL build exists"
-create_fake_cli_artifact
-create_fake_opengl_artifact
-run_test "success"
-verify_file_count 2
-verify_file_exists "release/zed-opengl.zip"
-verify_file_exists "release/sha256sums.txt"
+
 
 # Test 4: No builds exist
 setup_test "No builds exist"
@@ -118,7 +106,6 @@ echo "✅ No release files created when no builds exist"
 setup_test "Checksum verification"
 create_fake_cli_artifact
 create_fake_dx11_artifact
-create_fake_opengl_artifact
 run_test "success"
 
 # Verify checksums
@@ -147,21 +134,7 @@ else
     exit 1
 fi
 
-# Check GUI editor in `zed-opengl.zip`
-echo "Checking `zed-opengl.zip` structure"
-if unzip -l release/zed-opengl.zip | grep -q "^.*zed/zed.exe$"; then
-    echo "✅ GUI editor is in the correct location"
-else
-    echo "❌ GUI editor missing or in wrong location"
-    exit 1
-fi
-# Check CLI launcher in `zed-opengl.zip`
-if unzip -l release/zed-opengl.zip | grep -q "^.*zed/bin/zed.exe$"; then
-    echo "✅ CLI launcher is in the correct location"
-else
-    echo "❌ CLI launcher missing or in wrong location"
-    exit 1
-fi
+
 
 # Cleanup
 cd /

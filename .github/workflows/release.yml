@@ -47,10 +47,7 @@ jobs:
             echo "❌ FAIL: DX11 artifact not found"
           fi
 
-          # Check if OpenGL build exists
-          if [ ! -f "artifacts/editor-opengl-release/zed.exe" ]; then
-            echo "❌ FAIL: OpenGL artifact not found"
-          fi
+
 
       - name: Create release directories and zip
         run: |
